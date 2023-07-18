@@ -3,7 +3,6 @@ import speech_recognition as sr
 import os
 import datetime
 import pyjokes
-import howdoi
 
 def say(text):
     os.system(f'say "{text}"')
@@ -79,6 +78,10 @@ if __name__ == '__main__':
                     os.system("open -a WhatsApp")
                 command_matched = True
                 break
+
+        if "tell me a joke" in query.lower():
+            say(pyjokes.get_joke())
+            command_matched = True
 
         if not command_matched:
             say("Sorry, I didn't catch that. Can you please repeat?")
