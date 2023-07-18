@@ -3,6 +3,7 @@ import speech_recognition as sr
 import os
 import datetime
 import pyjokes
+import wikipedia
 
 def say(text):
     os.system(f'say "{text}"')
@@ -57,7 +58,8 @@ if __name__ == '__main__':
             "the time": f"Sir, the time is {datetime.datetime.now().strftime('%H:%M:%S')}",
             "how old are you": "I am an artificial intelligence program, I don't have an age."
                                " But I was Created on 17th July 2023 by Ayushman",
-            "tell me a joke": pyjokes.get_joke()
+            "tell me a joke": pyjokes.get_joke(),
+            "search wikipedia": "What would you like to search on Wikipedia?"
         }
 
         command_matched = False
@@ -76,6 +78,16 @@ if __name__ == '__main__':
                     os.system("open -a Spotify")
                 elif "whatsapp" in command:
                     os.system("open -a WhatsApp")
+                elif "search wikipedia" in command:
+                    say("Sure, what would you like to search on Wikipedia?")
+                    query = takeCommand()
+                    try:
+                        page = wikipedia.page(query)
+                        summary = wikipedia.summary(query, sentences=3)
+                        say(summary)
+                    except wikipedia.DisambiguationError as e:
+                        options = e.options[:5]
+                        say(f"There are multiple options available. Here are some of them: {', '.join(options)}")
                 command_matched = True
                 break
 
