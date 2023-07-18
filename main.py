@@ -29,8 +29,10 @@ def takeCommand():
 
 
 if __name__ == '__main__':
-    print('PyCharm')
+    print('JARVIS')
     say("Hello Sir, I am JARVIS A.I")
+
+    is_jarvis_active = False
 
     while True:
         print('Listening....')
@@ -39,8 +41,18 @@ if __name__ == '__main__':
         if not query:
             continue
 
-        if query.lower() == "quit":
+        if query.lower() == "quiet" or query.lower() == "by":
+            say("Goodbye, Sir. Have a nice day!"
+                "SIGNING OFF")
             break
+
+        if query.lower() == 'jarvis':
+            if is_jarvis_active:
+                say("Yes, sir? How can I assist you?")
+            else:
+                say("Jarvis is listening, sir. Please go ahead.")
+                is_jarvis_active = True
+            continue
 
         sites = [
             ["youtube", "http://youtube.com"],
@@ -59,7 +71,8 @@ if __name__ == '__main__':
             "how old are you": "I am an artificial intelligence program, I don't have an age."
                                " But I was Created on 17th July 2023 by Ayushman",
             "tell me a joke": pyjokes.get_joke(),
-            "search wikipedia": "What would you like to search on Wikipedia?"
+            "search wikipedia": "What would you like to search on Wikipedia? sir",
+            "search google": "What would you like to search on Google? sir"
         }
 
         command_matched = False
@@ -88,6 +101,11 @@ if __name__ == '__main__':
                     except wikipedia.DisambiguationError as e:
                         options = e.options[:5]
                         say(f"There are multiple options available. Here are some of them: {', '.join(options)}")
+                elif "search google" in command:
+                    query = takeCommand()
+                    search_query = query.replace("search google", "").strip()
+                    google_url = f"https://www.google.com/search?q={search_query}"
+                    webbrowser.open(google_url)
                 command_matched = True
                 break
 
@@ -95,5 +113,7 @@ if __name__ == '__main__':
             say(pyjokes.get_joke())
             command_matched = True
 
-        if not command_matched:
+        if not command_matched and is_jarvis_active:
             say("Sorry, I didn't catch that. Can you please repeat?")
+        elif not command_matched:
+            is_jarvis_active = False
