@@ -2,7 +2,8 @@ import webbrowser
 import speech_recognition as sr
 import os
 import datetime
-
+import pyjokes
+import howdoi
 
 def say(text):
     os.system(f'say "{text}"')
@@ -54,7 +55,10 @@ if __name__ == '__main__':
         commands = {
             "open spotify": "Opening Spotify sir...",
             "open whatsapp": "Opening Whatsapp sir...",
-            "the time": f"Sir, the time is {datetime.datetime.now().strftime('%H:%M:%S')}"
+            "the time": f"Sir, the time is {datetime.datetime.now().strftime('%H:%M:%S')}",
+            "how old are you": "I am an artificial intelligence program, I don't have an age."
+                               " But I was Created on 17th July 2023 by Ayushman",
+            "tell me a joke": pyjokes.get_joke()
         }
 
         command_matched = False
